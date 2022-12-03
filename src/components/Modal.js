@@ -1,6 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 
-const Modal = ({ isOpenModal }) => {
+const Modal = ({
+	isOpenModal,
+	headerText,
+	mainText,
+	isLoading,
+	showCloseButton,
+}) => {
 	const modalRef = useRef()
 	useEffect(() => {
 		modalRef.current.checked = isOpenModal
@@ -21,17 +27,24 @@ const Modal = ({ isOpenModal }) => {
 			/>
 			<div className='modal modal-bottom sm:modal-middle'>
 				<div className='modal-box'>
-					<h3 className='font-bold text-lg'>
-						Congratulations random Internet user!
-					</h3>
-					<p className='py-4'>
-						You've been selected for a chance to get one year of
-						subscription to use Wikipedia for free!
-					</p>
+					{isLoading && (
+						// <progress className='progress w-[100%] bg-primary text-primary'></progress>
+						<div
+							className='radial-progress animate-spin text-accent-focus mb-5'
+							style={{
+								'--value': 60,
+								'--size': '2.5rem',
+							}}
+						></div>
+					)}
+					<h3 className='font-bold text-lg z-2'>{headerText}</h3>
+					<p className='py-4'>{mainText}</p>
 					<div className='modal-action'>
-						<label htmlFor='my-modal-6' className='btn'>
-							Yay!
-						</label>
+						{showCloseButton && (
+							<label htmlFor='my-modal-6' className='btn'>
+								Close
+							</label>
+						)}
 					</div>
 				</div>
 			</div>
