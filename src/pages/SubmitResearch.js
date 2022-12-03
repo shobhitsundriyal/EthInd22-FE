@@ -3,7 +3,7 @@ import { useState } from 'react'
 // import { PdfUpload } from 'react-ipfs-uploader'
 import { create } from 'ipfs-http-client'
 import { Buffer } from 'buffer'
-import { infuraAPIkey } from '../secrects'
+import { infuraAPIkey } from '../secrets'
 import Modal from '../components/Modal'
 function SubmitResearch() {
 	const [pdfUrl, setPdfUrl] = useState('')
