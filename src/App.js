@@ -138,9 +138,9 @@ function App() {
 		}
 	}
 	return (
-<<<<<<< HEAD
 		<BrowserRouter>
 			<Routes>
+				<Route path="/" element={<MyProfile />} />
 				<Route path="my_profile" element={<MyProfile />} />
 				<Route path="communities" element={<Communities />} />
 				<Route path="marketplace" element={<Marketplace />} />
@@ -171,37 +171,6 @@ function App() {
 				</header>
 			</div> */}
 		</BrowserRouter>
-=======
-		<div className='App h-[100vh] w-[100vw]' data-theme='forest'>
-			<TopNavBar />
-			<div className='h-[10vh]'>yoyoyo</div>
-			<header className='App-header'>
-				{!socialContextState?.web3auth?.provider ? (
-					<button
-						onClick={connectMetamask}
-						className='btn btn-outline btn-sm'
-					>
-						Connect metamask
-					</button>
-				) : (
-					<button
-						onClick={retriveNo}
-						className='btn btn-outline btn-primary btn-sm'
-					>
-						submit number{' '}
-					</button>
-				)}
-				{no} the Number
-				<Modal
-					isOpenModal={true}
-					headerText={'HEAD'}
-					mainText={'the main text'}
-					isLoading
-					showCloseButton
-				/>
-			</header>
-		</div>
->>>>>>> ea2c73134057f26278e3973b66bfd1622b4b8596
 	)
 }
 
