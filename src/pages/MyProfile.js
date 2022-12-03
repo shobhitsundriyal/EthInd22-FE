@@ -1,4 +1,5 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { QRCode } from "react-qr-svg";
 import Layout from "../components/Layout";
 import Modal from "../components/Modal";
@@ -47,12 +48,41 @@ let mainText = <QRCode
     value={JSON.stringify(qrProofRequestJson)}
 />
 
+// async function getRWTBalance(address) {
+//     let response = await axios.get(
+//         `https://api.covalenthq.com/v1/80001/address/0x17b135575639A9B55F7EBb74FbED5f727eD08E8a/balances_v2/?key=ckey_74f1c58ea29641c5ac04fee2cfc`,
+//     );
+//     return <>{JSON.stringify(response)}</>
+// }
+
 function MyProfile() {
     const [isOpenModal, setIsOpenModal] = useState(false);
-    
+    const [walletBalance, setWalletBalance] = useState(0);
+
     function verifyAgeModal() {
         setIsOpenModal(true);
     }
+
+    async function getRWTBalance(address) {
+        axios.get(
+            `https://api.covalenthq.com/v1/80001/address/0x17b135575639A9B55F7EBb74FbED5f727eD08E8a/balances_v2/?key=ckey_74f1c58ea29641c5ac04fee2cfc`,
+        ).then((response) => {
+            console.log(response.data.data.items.filter((item) => item.contract_address == "0xf115ca1ec48b77ee031be4d7e429244cc928d42b"));
+        });
+    }
+
+    useEffect(() => {
+        async function getRWTBalance(address) {
+            axios.get(
+                `https://api.covalenthq.com/v1/80001/address/${address}/balances_v2/?key=ckey_74f1c58ea29641c5ac04fee2cfc`,
+            ).then((response) => {
+                let tokenBalance = response.data.data.items.filter((item) => item.contract_address == "0xf115ca1ec48b77ee031be4d7e429244cc928d42b");
+                console.log(tokenBalance[0].balance);
+                setWalletBalance(tokenBalance[0].balance);
+            });
+        }
+        getRWTBalance("0x17b135575639A9B55F7EBb74FbED5f727eD08E8a");
+    }, []);
     
     return(
         <Layout page = "My Profile">
@@ -63,10 +93,10 @@ function MyProfile() {
                 isLoading={false}
                 showCloseButton={true}
             />
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center mt-20">
                 <div className="max-w-[80%] text-lg text-center">
                     <span className="leading-10">Welcome 0x17b135575639A9B55F7EBb74FbED5f727eD08E8a!</span><br/>
-                    <span className="leading-10">Your ReviewD Wallet Balance: 100000000000</span><br/>
+                    <span className="leading-10">Your ReviewD Wallet Balance: {walletBalance} </span><br/>
                     <button className="btn btn-secondary m-20" onClick={verifyAgeModal}>Verify my age</button>
                 </div>
             </div>
