@@ -10,12 +10,16 @@ import TopNavBar from './components/TopNavBar'
 import { ChainId } from '@biconomy/core-types'
 
 import SmartAccount from '@biconomy/smart-account'
+import { useSocialContext } from './contexts/SocialContextProvider'
+import Modal from './components/Modal'
 
 function App() {
 	// new member 0x1271C74805A95054C987428c75DB1e882c416f7f
 	// contract addre 0x10617a4734390dEB037487231BA4E9Ee92E398E8
 	const [account, setAccount] = useState()
+	const [no, setNo] = useState()
 	const { contractAddr, constractAbi } = ContractDetails
+	const { socialContextState } = useSocialContext()
 
 	const connectMetamask = async () => {
 		try {
@@ -52,7 +56,9 @@ function App() {
 				// )
 				// console.log(myContract, 10000)
 				// await myContract.methods.store(6969).send({ from: account })
-				const provider = new ethers.providers.Web3Provider(ethereum)
+				const provider = new ethers.providers.Web3Provider(
+					socialContextState.provider
+				)
 				const walletProvider = new ethers.providers.Web3Provider(
 					provider.provider
 				)
@@ -95,7 +101,7 @@ function App() {
 				})
 
 				const dappInterface = new ethers.utils.Interface(constractAbi)
-				const data = dappInterface.encodeFunctionData('store', [5555])
+				const data = dappInterface.encodeFunctionData('store', [777])
 				const tx1 = {
 					to: contractAddr,
 					data: data,
@@ -110,12 +116,26 @@ function App() {
 			console.log(err, 'There is a error')
 		}
 	}
+	const retriveNo = async () => {
+		setNo('....')
+		const provider = new ethers.providers.Web3Provider(window.ethereum)
+		const signer = provider.getSigner()
+		const connectedContract = new ethers.Contract(
+			contractAddr,
+			constractAbi,
+			signer
+		)
+		const retrivedNumber = await connectedContract.retrieve()
+		if (retrivedNumber) {
+			setNo(parseInt(retrivedNumber._hex, 16))
+		}
+	}
 	return (
 		<div className='App h-[100vh] w-[100vw]' data-theme='forest'>
 			<TopNavBar />
 			<div className='h-[10vh]'>yoyoyo</div>
 			<header className='App-header'>
-				{!account ? (
+				{!socialContextState?.web3auth?.provider ? (
 					<button
 						onClick={connectMetamask}
 						className='btn btn-outline btn-sm'
@@ -124,12 +144,14 @@ function App() {
 					</button>
 				) : (
 					<button
-						onClick={submitProposal}
+						onClick={retriveNo}
 						className='btn btn-outline btn-primary btn-sm'
 					>
 						submit number{' '}
 					</button>
 				)}
+				{no} the Number
+				<Modal isOpenModal={true} />
 			</header>
 		</div>
 	)
