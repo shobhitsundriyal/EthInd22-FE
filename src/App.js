@@ -12,8 +12,8 @@ import { ChainId } from '@biconomy/core-types'
 import SmartAccount from '@biconomy/smart-account'
 import { useSocialContext } from './contexts/SocialContextProvider'
 import Modal from './components/Modal'
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Layout from './components/Layout'
 import MyProfile from './pages/MyProfile'
 import Communities from './pages/Communities'
 import Marketplace from './pages/Marketplace'
@@ -49,20 +49,6 @@ function App() {
 		try {
 			const { ethereum } = window
 			if (ethereum) {
-				// const biconomy = new Biconomy(ethereum, {
-				// 	apiKey: 'iEV_I2aTD.2907b6e0-196f-4d07-bfcd-47d17cfaf11b',
-				// 	debug: true,
-				// 	contractAddresses: [contractAddr],
-				// })
-				// // console.log(biconomy, 88)
-				// await biconomy.init()
-				// let web3 = new Web3(biconomy.provider)
-				// let myContract = new web3.eth.Contract(
-				// 	constractAbi,
-				// 	contractAddr
-				// )
-				// console.log(myContract, 10000)
-				// await myContract.methods.store(6969).send({ from: account })
 				const provider = new ethers.providers.Web3Provider(
 					socialContextState.provider
 				)
@@ -80,8 +66,7 @@ function App() {
 					networkConfig: [
 						{
 							chainId: ChainId.POLYGON_MUMBAI,
-							dappAPIKey:
-								'59fRCMXvk.8a1652f0-b522-4ea7-b296-98628499aee3', // Get one from Paymaster Dashboard
+							dappAPIKey: '59fRCMXvk.8a1652f0-b522-4ea7-b296-98628499aee3', // Get one from Paymaster Dashboard
 							// customPaymasterAPI: <IPaymaster Instance of your own Paymaster>
 						},
 					],
@@ -93,10 +78,7 @@ function App() {
 				console.log('address', address)
 
 				smartAccount.on('txHashGenerated', (response) => {
-					console.log(
-						'txHashGenerated event received via emitter',
-						response
-					)
+					console.log('txHashGenerated event received via emitter', response)
 				})
 
 				smartAccount.on('txMined', (response) => {
@@ -140,36 +122,36 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path="/" element={<MyProfile />} />
-				<Route path="my_profile" element={<MyProfile />} />
-				<Route path="communities" element={<Communities />} />
-				<Route path="marketplace" element={<Marketplace />} />
-				<Route path="review" element={<Review />} />
-				<Route path="submit_research" element={<SubmitResearch />} />
+				<Route path='/' element={<MyProfile />} />
+				<Route path='my_profile' element={<MyProfile />} />
+				<Route path='communities' element={<Communities />} />
+				<Route path='marketplace' element={<Marketplace />} />
+				<Route path='review' element={<Review />} />
+				<Route path='submit_research' element={<SubmitResearch />} />
 			</Routes>
 			{/* <div className='App h-[100vh] w-[100vw]' data-theme='forest'>
 				<TopNavBar />
 				<div className='h-[10vh]'>yoyoyo</div>
 				<header className='App-header'>
-					{!socialContextState?.web3auth?.provider ? (
-						<button
-							onClick={connectMetamask}
-							className='btn btn-outline btn-sm'
-						>
+				{!socialContextState?.web3auth?.provider ? (
+					<button
+					onClick={connectMetamask}
+					className='btn btn-outline btn-sm'
+					>
 							Connect metamask
 						</button>
-					) : (
-						<button
+						) : (
+							<button
 							onClick={retriveNo}
 							className='btn btn-outline btn-primary btn-sm'
-						>
+							>
 							submit number{' '}
-						</button>
-					)}
-					{no} the Number
-					<Modal isOpenModal={true} />
-				</header>
-			</div> */}
+							</button>
+							)}
+							{no} the Number
+							<Modal isOpenModal={true} />
+							</header>
+						</div> */}
 		</BrowserRouter>
 	)
 }
