@@ -5,13 +5,33 @@ import { create } from 'ipfs-http-client'
 import { Buffer } from 'buffer'
 import { infuraAPIkey } from '../secrects'
 import Modal from '../components/Modal'
+import { ReviewerContractAddr } from '../RevierContractDetails'
+import { ethers } from 'ethers'
+import { ChainId } from '@biconomy/core-types'
+import SmartAccount from '@biconomy/smart-account'
+import { useSocialContext } from '../contexts/SocialContextProvider'
+
 function SubmitResearch() {
 	const [pdfUrl, setPdfUrl] = useState('')
 	const [file, setFile] = useState()
 	const [openModal, setOpenModal] = useState(false)
+	const { socialContextState } = useSocialContext()
+	const [modalProps, setModalProps] = useState({
+		// isOpenModal:false
+		headerText: '',
+		mainText: '',
+		isLoading: false,
+		showCloseButton: false,
+	})
 
 	const uploadFile = async () => {
 		setOpenModal(true)
+		setModalProps({
+			...modalProps,
+			isLoading: true,
+			headerText: 'Uploading Your paper',
+			mainText: 'Please Wait....',
+		})
 		try {
 			//process env
 			const projectId = '2IOgzyIP9wtuF8B4WJEzUtUHN4Z'
@@ -34,6 +54,63 @@ function SubmitResearch() {
 			if (added.path) setOpenModal(false)
 			setPdfUrl(`https://infura-ipfs.io/ipfs/${added.path}`)
 			console.log(`https://infura-ipfs.io/ipfs/${added.path}`)
+
+			//Now call contract and put it onchain
+
+			const { ethereum } = window
+			if (ethereum) {
+				const provider = new ethers.providers.Web3Provider(
+					socialContextState.provider
+				)
+				const walletProvider = new ethers.providers.Web3Provider(
+					provider.provider
+				)
+
+				let options = {
+					activeNetworkId: ChainId.POLYGON_MUMBAI,
+					supportedNetworksIds: [
+						ChainId.GOERLI,
+						ChainId.POLYGON_MAINNET,
+						ChainId.POLYGON_MUMBAI,
+					],
+					networkConfig: [
+						{
+							chainId: ChainId.POLYGON_MUMBAI,
+							dappAPIKey: '59fRCMXvk.8a1652f0-b522-4ea7-b296-98628499aee3', // Get one from Paymaster Dashboard
+							// customPaymasterAPI: <IPaymaster Instance of your own Paymaster>
+						},
+					],
+				}
+
+				let smartAccount = new SmartAccount(walletProvider, options)
+				smartAccount = await smartAccount.init()
+				const address = smartAccount.address
+				console.log('address', address)
+
+				smartAccount.on('txHashGenerated', (response) => {
+					console.log('txHashGenerated event received via emitter', response)
+				})
+
+				smartAccount.on('txMined', (response) => {
+					console.log('txMined event received via emitter', response)
+				})
+
+				smartAccount.on('error', (response) => {
+					console.log('error event received via emitter', response)
+				})
+				// first testing erc20 aproval and transfer***
+				const dappInterface = new ethers.utils.Interface(ReviewerContractAddr)
+				// const data = dappInterface.encodeFunctionData('createAsset', [pdfUrl])
+				// const tx1 = {
+				// 	to: contractAddr,
+				// 	data: data,
+				// 	// from: account,
+				// }
+				// // Gasless
+				// const txResponse = await smartAccount.sendGasLessTransaction({
+				// 	transaction: tx1,
+				// })
+			}
 		} catch (err) {
 			console.log('Error | ', err)
 			setOpenModal(false)
@@ -43,12 +120,7 @@ function SubmitResearch() {
 	return (
 		<Layout>
 			<div className='page h-[90vh] flex flex-col justify-center items-center'>
-				<Modal
-					isOpenModal={openModal}
-					headerText={'Uploading Your paper'}
-					mainText={'Please Wait...'}
-					isLoading
-				/>
+				<Modal isOpenModal={openModal} {...modalProps} />
 				<div className='form-container flex'>
 					<input
 						type='file'
