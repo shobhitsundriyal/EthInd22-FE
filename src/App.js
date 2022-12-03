@@ -12,6 +12,13 @@ import { ChainId } from '@biconomy/core-types'
 import SmartAccount from '@biconomy/smart-account'
 import { useSocialContext } from './contexts/SocialContextProvider'
 import Modal from './components/Modal'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import MyProfile from './pages/MyProfile'
+import Communities from './pages/Communities'
+import Marketplace from './pages/Marketplace'
+import Review from './pages/Review'
+import SubmitResearch from './pages/SubmitResearch'
 
 function App() {
 	// new member 0x1271C74805A95054C987428c75DB1e882c416f7f
@@ -131,29 +138,38 @@ function App() {
 		}
 	}
 	return (
-		<div className='App h-[100vh] w-[100vw]' data-theme='forest'>
-			<TopNavBar />
-			<div className='h-[10vh]'>yoyoyo</div>
-			<header className='App-header'>
-				{!socialContextState?.web3auth?.provider ? (
-					<button
-						onClick={connectMetamask}
-						className='btn btn-outline btn-sm'
-					>
-						Connect metamask
-					</button>
-				) : (
-					<button
-						onClick={retriveNo}
-						className='btn btn-outline btn-primary btn-sm'
-					>
-						submit number{' '}
-					</button>
-				)}
-				{no} the Number
-				<Modal isOpenModal={true} />
-			</header>
-		</div>
+		<BrowserRouter>
+			<Routes>
+				<Route path="my_profile" element={<MyProfile />} />
+				<Route path="communities" element={<Communities />} />
+				<Route path="marketplace" element={<Marketplace />} />
+				<Route path="review" element={<Review />} />
+				<Route path="submit_research" element={<SubmitResearch />} />
+			</Routes>
+			{/* <div className='App h-[100vh] w-[100vw]' data-theme='forest'>
+				<TopNavBar />
+				<div className='h-[10vh]'>yoyoyo</div>
+				<header className='App-header'>
+					{!socialContextState?.web3auth?.provider ? (
+						<button
+							onClick={connectMetamask}
+							className='btn btn-outline btn-sm'
+						>
+							Connect metamask
+						</button>
+					) : (
+						<button
+							onClick={retriveNo}
+							className='btn btn-outline btn-primary btn-sm'
+						>
+							submit number{' '}
+						</button>
+					)}
+					{no} the Number
+					<Modal isOpenModal={true} />
+				</header>
+			</div> */}
+		</BrowserRouter>
 	)
 }
 
