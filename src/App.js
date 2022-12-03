@@ -151,7 +151,13 @@ function App() {
 					</button>
 				)}
 				{no} the Number
-				<Modal isOpenModal={true} />
+				<Modal
+					isOpenModal={true}
+					headerText={'HEAD'}
+					mainText={'the main text'}
+					isLoading
+					showCloseButton
+				/>
 			</header>
 		</div>
 	)
