@@ -37,8 +37,8 @@ const Modal = ({
 							}}
 						></div>
 					)}
-					<h3 className='font-bold text-lg z-2'>{headerText}</h3>
-					<p className='py-4'>{mainText}</p>
+					<h3 className='font-bold text-lg z-2 text-center'>{headerText}</h3>
+					<p className='flex justify-center py-4 text-center'>{mainText}</p>
 					<div className='modal-action'>
 						{showCloseButton && (
 							<label htmlFor='my-modal-6' className='btn'>

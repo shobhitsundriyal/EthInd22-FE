@@ -3,8 +3,8 @@ import TopNavBar from "./TopNavBar";
 function Layout(props) {
     return(
         <>
-            <TopNavBar />
-            { props.children }
+            <TopNavBar page = { props.page }/>
+            <div>{ props.children }</div>
         </>
     )
 }
