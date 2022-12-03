@@ -4,7 +4,7 @@ import { ethers } from 'ethers'
 import { useSocialContext } from '../contexts/SocialContextProvider'
 import { Outlet, Link } from "react-router-dom";
 
-const TopNavBar = () => {
+const TopNavBar = (props) => {
 	const { setSocialContextState } = useSocialContext()
 	const login = async () => {
 		// init wallet
@@ -42,7 +42,7 @@ const TopNavBar = () => {
 				<Outlet />
 			</div>
 			<div className="navbar-center">
-				<a className="btn btn-ghost normal-case text-xl">ReviewD</a>
+				<a className="btn btn-ghost normal-case text-xl">ReviewD / {props.page}</a>
 			</div>
 			<div className="navbar-end">
 				{/* <button className="btn btn-ghost btn-circle">

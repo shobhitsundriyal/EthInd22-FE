@@ -147,29 +147,6 @@ function App() {
 				<Route path="review" element={<Review />} />
 				<Route path="submit_research" element={<SubmitResearch />} />
 			</Routes>
-			{/* <div className='App h-[100vh] w-[100vw]' data-theme='forest'>
-				<TopNavBar />
-				<div className='h-[10vh]'>yoyoyo</div>
-				<header className='App-header'>
-					{!socialContextState?.web3auth?.provider ? (
-						<button
-							onClick={connectMetamask}
-							className='btn btn-outline btn-sm'
-						>
-							Connect metamask
-						</button>
-					) : (
-						<button
-							onClick={retriveNo}
-							className='btn btn-outline btn-primary btn-sm'
-						>
-							submit number{' '}
-						</button>
-					)}
-					{no} the Number
-					<Modal isOpenModal={true} />
-				</header>
-			</div> */}
 		</BrowserRouter>
 	)
 }

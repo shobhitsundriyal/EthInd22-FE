@@ -2,7 +2,7 @@ import Layout from "../components/Layout";
 
 function Review() {
     return(
-        <Layout>
+        <Layout page = "Review">
             <h3>Review</h3>
         </Layout>
     )
