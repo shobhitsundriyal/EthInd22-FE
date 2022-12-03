@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
 	<React.StrictMode>
 		<SocialContextProvider>
-			<div data-theme='forest'>
+			<div data-theme='light'>
 				<App />
 			</div>
 		</SocialContextProvider>

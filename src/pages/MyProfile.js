@@ -4,49 +4,52 @@ import { QRCode } from 'react-qr-svg'
 import Layout from '../components/Layout'
 import Modal from '../components/Modal'
 
-const deployedContractAddress = '0xf115cA1eC48B77EE031BE4d7E429244cC928d42B'
+const deployedContractAddress = '0xAB587C0e6460331E7A528e93D9878e847b27aa15';
 
 const qrProofRequestJson = {
-	id: 'c811849d-6bfb-4d85-936e-3d9759c7f105',
-	typ: 'application/iden3comm-plain-json',
-	type: 'https://iden3-communication.io/proofs/1.0/contract-invoke-request',
-	body: {
-		transaction_data: {
-			contract_address: deployedContractAddress,
-			method_id: 'b68967e2',
-			chain_id: 80001,
-			network: 'polygon-mumbai',
-		},
-		reason: 'age verification reward claim',
-		scope: [
-			{
-				id: 1,
-				circuit_id: 'credentialAtomicQuerySig',
-				rules: {
-					query: {
-						allowed_issuers: ['*'],
-						req: {
-							dateOfBirth: {
-								$lt: 20010101,
-							},
-						},
-						schema: {
-							url: 'https://raw.githubusercontent.com/iden3/claim-schema-vocab/main/schemas/json-ld/kyc-v2.json-ld',
-							type: 'KYCDOB',
-						},
-					},
-				},
-			},
-		],
-	},
-}
+  id: "c811849d-6bfb-4d85-936e-3d9759c7f105",
+  typ: "application/iden3comm-plain-json",
+  type: "https://iden3-communication.io/proofs/1.0/contract-invoke-request",
+  body: {
+    transaction_data: {
+      contract_address: deployedContractAddress,
+      method_id: "b68967e2",
+      chain_id: 80001,
+      network: "polygon-mumbai"
+    },
+    reason: "age verification reward",
+    scope: [
+      {
+        id: 1,
+        circuit_id: "credentialAtomicQuerySig",
+        rules: {
+          query: {
+            allowed_issuers: ["*"],
+            req: {
+              dateOfBirth: {
+                $lt: 20010101
+              }
+            },
+            schema: {
+              url:
+                "https://s3.eu-west-1.amazonaws.com/polygonid-schemas/bca5adda-d65e-4076-93ae-318d89219af5.json-ld",
+              type: "KYCDOB"
+            }
+          }
+        }
+      }
+    ]
+  }
+};
 
 let mainText = (
-	<QRCode
-		level='Q'
-		style={{ width: 256 }}
-		value={JSON.stringify(qrProofRequestJson)}
-	/>
+  <div className='h-50 w-50 bg-white'>
+    	<QRCode
+        level='Q'
+        style={{ width: 256 }}
+        value={JSON.stringify(qrProofRequestJson)}
+      />
+  </div>
 )
 
 // async function getRWTBalance(address) {

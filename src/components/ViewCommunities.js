@@ -14,24 +14,24 @@ function ViewCommunities() {
                 <tbody>
                 <tr>
                     <th>1</th>
-                    <td>Cy Ganderton</td>
-                    <td>Quality Control Specialist</td>
-                    <td>Tags</td>
-                    <td>Blue</td>
+                    <td>Indian Medical Association</td>
+                    <td>56</td>
+                    <td>Biology</td>
+                    <td><button className="btn btn-secondary m-20">Join</button></td>
                 </tr>
                 <tr>
                     <th>2</th>
-                    <td>Hart Hagerty</td>
-                    <td>Desktop Support Technician</td>
-                    <td>Tags</td>
-                    <td>Purple</td>
+                    <td>Indian Institute of Science Chemistry R&D</td>
+                    <td>10</td>
+                    <td>Chemistry</td>
+                    <td><button className="btn btn-secondary m-20">Join</button></td>
                 </tr>
                 <tr>
                     <th>3</th>
-                    <td>Brice Swyre</td>
-                    <td>Tax Accountant</td>
-                    <td>Tags</td>
-                    <td>Red</td>
+                    <td>Computer Science Education Society</td>
+                    <td>45</td>
+                    <td>Computer Science</td>
+                    <td><button className="btn btn-secondary m-20">Join</button></td>
                 </tr>
                 </tbody>
             </table>
