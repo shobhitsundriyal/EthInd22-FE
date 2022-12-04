@@ -24,7 +24,7 @@ function Marketplace() {
                     </div>
                 </div>
             </div>
-            { activeTab == 0 ? <ViewCommunities /> : activeTab == 1 ? <YourCommunities/> : activeTab == 2 ? <YourCommunities/> : <ViewCommunities /> }
+            {/* { activeTab == 0 ? <ViewCommunities /> : activeTab == 1 ? <YourCommunities/> : activeTab == 2 ? <YourCommunities/> : <ViewCommunities /> } */}
         </Layout>
     )
 }

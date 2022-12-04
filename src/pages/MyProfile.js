@@ -52,13 +52,6 @@ let mainText = (
   </div>
 )
 
-// async function getRWTBalance(address) {
-//     let response = await axios.get(
-//         `https://api.covalenthq.com/v1/80001/address/0x17b135575639A9B55F7EBb74FbED5f727eD08E8a/balances_v2/?key=ckey_74f1c58ea29641c5ac04fee2cfc`,
-//     );
-//     return <>{JSON.stringify(response)}</>
-// }
-
 function MyProfile() {
 	const [isOpenModal, setIsOpenModal] = useState(false)
 	const [walletBalance, setWalletBalance] = useState(0)
@@ -67,23 +60,7 @@ function MyProfile() {
 		setIsOpenModal(true)
 	}
 
-	async function getRWTBalance(address) {
-		axios
-			.get(
-				`https://api.covalenthq.com/v1/80001/address/0x17b135575639A9B55F7EBb74FbED5f727eD08E8a/balances_v2/?key=ckey_74f1c58ea29641c5ac04fee2cfc`
-			)
-			.then((response) => {
-				console.log(
-					response.data.data.items.filter(
-						(item) =>
-							item.contract_address ==
-							'0xf115ca1ec48b77ee031be4d7e429244cc928d42b'
-					)
-				)
-			})
-	}
-
-	useEffect(() => {
+  useEffect(() => {
 		async function getRWTBalance(address) {
 			axios
 				.get(
