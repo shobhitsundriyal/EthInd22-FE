@@ -81,26 +81,28 @@ function MyProfile() {
 
 	return (
 		<Layout page='My Profile'>
-			<Modal
-				isOpenModal={isOpenModal}
-				headerText={'Use Polygon ID to scan and verify age'}
-				mainText={mainText}
-				isLoading={false}
-				showCloseButton={true}
-			/>
-			<div className='flex justify-center items-center mt-20'>
-				<div className='max-w-[80%] text-lg text-center'>
-					<span className='leading-10'>
-						Welcome 0x17b135575639A9B55F7EBb74FbED5f727eD08E8a!
-					</span>
-					<br />
-					<span className='leading-10'>
-						Your ReviewD Wallet Balance: {walletBalance}{' '}
-					</span>
-					<br />
-					<button className='btn btn-secondary m-20' onClick={verifyAgeModal}>
-						Verify my age
-					</button>
+			<div className='h-[90vh]'>
+				<Modal
+					isOpenModal={isOpenModal}
+					headerText={'Use Polygon ID to scan and verify age'}
+					mainText={mainText}
+					isLoading={false}
+					showCloseButton={true}
+				/>
+				<div className='flex justify-center items-center mt-20'>
+					<div className='max-w-[80%] text-lg text-center'>
+						<span className='leading-10'>
+							Welcome 0x17b135575639A9B55F7EBb74FbED5f727eD08E8a!
+						</span>
+						<br />
+						<span className='leading-10'>
+							Your ReviewD Wallet Balance: {walletBalance}{' '}
+						</span>
+						<br />
+						<button className='btn btn-secondary m-20' onClick={verifyAgeModal}>
+							Verify my age
+						</button>
+					</div>
 				</div>
 			</div>
 		</Layout>
