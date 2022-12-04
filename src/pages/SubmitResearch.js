@@ -3,13 +3,17 @@ import { useState } from 'react'
 // import { PdfUpload } from 'react-ipfs-uploader'
 import { create } from 'ipfs-http-client'
 import { Buffer } from 'buffer'
-import { infuraAPIkey } from '../secrets'
+import { infuraAPIkey } from '../secrects'
 import Modal from '../components/Modal'
-import { ReviewerContractAddr } from '../RevierContractDetails'
+import {
+	ReviewerContractAbi,
+	ReviewerContractAddr,
+} from '../RevierContractDetails'
 import { ethers } from 'ethers'
 import { ChainId } from '@biconomy/core-types'
 import SmartAccount from '@biconomy/smart-account'
 import { useSocialContext } from '../contexts/SocialContextProvider'
+import { reviewerTokenAbi, reviewerTokenAddr } from '../ReviewerTokenDetails'
 
 function SubmitResearch() {
 	const [pdfUrl, setPdfUrl] = useState('')
@@ -65,6 +69,8 @@ function SubmitResearch() {
 				const walletProvider = new ethers.providers.Web3Provider(
 					provider.provider
 				)
+				// console.log(walletProvider, 999)
+				// return
 
 				let options = {
 					activeNetworkId: ChainId.POLYGON_MUMBAI,
@@ -81,6 +87,16 @@ function SubmitResearch() {
 						},
 					],
 				}
+
+				setModalProps(() => {
+					return {
+						...modalProps,
+						isLoading: true,
+						headerText: 'Transfering RWT',
+						mainText: 'Please Wait....',
+						isOpenModal: true,
+					}
+				})
 
 				let smartAccount = new SmartAccount(walletProvider, options)
 				smartAccount = await smartAccount.init()
@@ -99,21 +115,61 @@ function SubmitResearch() {
 					console.log('error event received via emitter', response)
 				})
 				// first testing erc20 aproval and transfer***
-				const dappInterface = new ethers.utils.Interface(ReviewerContractAddr)
-				// const data = dappInterface.encodeFunctionData('createAsset', [pdfUrl])
-				// const tx1 = {
-				// 	to: contractAddr,
-				// 	data: data,
-				// 	// from: account,
-				// }
-				// // Gasless
-				// const txResponse = await smartAccount.sendGasLessTransaction({
-				// 	transaction: tx1,
+				const txs = []
+				const dappInterface = new ethers.utils.Interface(reviewerTokenAbi)
+				const data = dappInterface.encodeFunctionData('approve', [
+					address,
+					ethers.utils.parseUnits('20', 'ether').toString(),
+				])
+				const tx1 = {
+					to: reviewerTokenAddr,
+					data: data,
+					// from: account,
+				}
+				txs.push(tx1)
+				// transaction 2
+				const data2 = dappInterface.encodeFunctionData('transfer', [
+					// '0x67A1e8D4f538c8a9867C41372263D48061f39230', //acc4
+					'0x1271C74805A95054C987428c75DB1e882c416f7f', //acc5
+					ethers.utils.parseUnits('20', 'ether').toString(),
+				])
+				const tx2 = {
+					to: reviewerTokenAddr,
+					data: data2,
+					// from: account,
+				}
+				txs.push(tx2)
+				// Gasless
+				const tx1Response = await smartAccount.sendGasLessTransaction({
+					transaction: tx1,
+				})
+				const tx2Response = await smartAccount.sendGasLessTransaction({
+					transaction: tx2,
+				})
+				// const batchTxResponse = await smartAccount.sendGasLessTransaction({
+				// 	transaction: txs, //, tx2],
 				// })
+				if (tx2Response) {
+					setModalProps(() => {
+						return {
+							...modalProps,
+							isOpenModal: true,
+							showCloseButton: true,
+							headerText: 'Transaction was successful',
+							isLoading: false,
+						}
+					})
+				}
 			}
 		} catch (err) {
 			console.log('Error | ', err)
 			setOpenModal(false)
+			setModalProps(() => {
+				return {
+					...modalProps,
+					isOpenModal: false,
+				}
+			})
 		}
 	}
 
@@ -137,7 +193,10 @@ function SubmitResearch() {
 				</div>
 				<br />
 				<span className={`${!pdfUrl ? 'opacity-0' : 'opacity-100'}`}>
-					Your file uploaded here: <a className='link link-primary'>{pdfUrl}</a>
+					Your file uploaded here:{' '}
+					<a className='link link-primary' target={'_blank'} href={pdfUrl}>
+						{pdfUrl}
+					</a>
 				</span>
 			</div>
 		</Layout>

@@ -12,7 +12,7 @@ function Communities() {
 
 	return (
 		<Layout page='Communities'>
-			<div className='h-[90vh]'>
+			<div className='min-h-[90vh]'>
 				<div className='flex justify-center items-center'>
 					<div className='max-w-[80%] text-lg text-center'>
 						<div className='tabs tabs-boxed'>
